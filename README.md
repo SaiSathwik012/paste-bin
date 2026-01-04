@@ -103,11 +103,7 @@ http://localhost:3000
 
 /api/healthz — Health check and database connectivity
 
-#👤 Author
 
-Sai Sathwik Samudram
-LinkedIn : https://www.linkedin.com/in/samudram-sai-sathwik-884585230
-Leetcode : https://leetcode.com/u/SaiSathwikSamudram/
 📄 License
 
 This project is intended for educational and assignment purposes.
@@ -122,3 +118,10 @@ EOF
 git add README.md
 git commit -m "Update README"
 git push
+```
+
+#👤 Author
+
+Sai Sathwik Samudram
+LinkedIn : https://www.linkedin.com/in/samudram-sai-sathwik-884585230
+Leetcode : https://leetcode.com/u/SaiSathwikSamudram/
