@@ -5,6 +5,7 @@ A lightweight and secure text-sharing web application that allows users to creat
 Repository:
 https://github.com/SaiSathwik012/paste-bin.git
 
+Live Demo : https://paste-bin-one.vercel.app/
 ---
 
 ## ✨ Features
