@@ -1,4 +1,3 @@
-cat << 'EOF' > README.md
 # Paste Bin
 
 A lightweight and secure text-sharing web application that allows users to create temporary pastes with optional expiration time and view limits. Designed with simplicity, performance, and reliability in mind.
