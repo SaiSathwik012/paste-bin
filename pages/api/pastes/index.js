@@ -1,9 +1,12 @@
 import { nanoid } from 'nanoid';
 import dbConnect from '../../../lib/dbConnect';
-import Paste from '../../../models/Paste.js';
+import Paste from '../../../models/Paste';
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).end();
+    if (req.method !== 'POST') {
+        res.setHeader('Allow', ['POST']);
+        return res.status(405).json({ error: 'Method Not Allowed' });
+    }
 
     try {
         const { content, ttl_seconds, max_views } = req.body;
@@ -14,28 +17,31 @@ export default async function handler(req, res) {
 
         await dbConnect();
 
-
         const id = nanoid(8);
         let expiresAt = null;
         let remainingViews = null;
 
-        if (ttl_seconds) {
-            const ttl = parseInt(ttl_seconds);
-            if (isNaN(ttl) || ttl < 1) return res.status(400).json({ error: 'Invalid TTL' });
+        if (ttl_seconds !== undefined) {
+            const ttl = parseInt(ttl_seconds, 10);
+            if (isNaN(ttl) || ttl < 1) {
+                return res.status(400).json({ error: 'Invalid ttl_seconds' });
+            }
             expiresAt = new Date(Date.now() + ttl * 1000);
         }
 
-        if (max_views) {
-            const mv = parseInt(max_views);
-            if (isNaN(mv) || mv < 1) return res.status(400).json({ error: 'Invalid max_views' });
+        if (max_views !== undefined) {
+            const mv = parseInt(max_views, 10);
+            if (isNaN(mv) || mv < 1) {
+                return res.status(400).json({ error: 'Invalid max_views' });
+            }
             remainingViews = mv;
         }
 
         await Paste.create({
-            _id: id,
+            _id: id, // STRING ID (IMPORTANT)
             content,
             expiresAt,
-            remainingViews
+            remainingViews,
         });
 
         const protocol = req.headers['x-forwarded-proto'] || 'http';
@@ -43,10 +49,11 @@ export default async function handler(req, res) {
 
         return res.status(201).json({
             id,
-            url: `${protocol}://${host}/p/${id}`
+            url: `${protocol}://${host}/p/${id}`,
         });
 
     } catch (error) {
+        console.error('POST /api/pastes error:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
