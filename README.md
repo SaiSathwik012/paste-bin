@@ -1,84 +1,123 @@
+cat << 'EOF' > README.md
+# Paste Bin
+
+A lightweight and secure text-sharing web application that allows users to create temporary pastes with optional expiration time and view limits. Designed with simplicity, performance, and reliability in mind.
+
+Repository:
+https://github.com/SaiSathwik012/paste-bin.git
+
 ---
 
-# Pastebin-Lite
+## ✨ Features
 
-A secure, ephemeral text sharing application built with Next.js. Users can create pastes with optional expiration settings (Time-to-Live and Max Views).
+- Create and share text snippets instantly
+- Optional Time-to-Live (TTL) for automatic expiration
+- Optional Maximum View Limit for controlled access
+- Pastes automatically delete themselves after expiry or view limit
+- Session-based paste history on the client
+- Responsive and clean user interface
+- Health check API for backend monitoring
+- Deterministic testing support using custom request headers
 
-**Live Demo:** [https://pastebin.satyamm.in](https://pastebin.satyamm.in)
+---
 
-## 🛠 Tech Stack
+## 🧰 Tech Stack
 
-- **Framework:** Next.js (Pages Router)
-- **Database:** MongoDB (via Mongoose)
-- **Styling:** Tailwind CSS
-- **UI Components:** Shadcn UI & Lucide React
-- **Notifications:** Sonner
-- **Deployment:** Vercel
+- Frontend Framework: Next.js (Pages Router)
+- Backend: Next.js API Routes
+- Database: MongoDB (Mongoose ODM)
+- Styling: Tailwind CSS
+- UI Components: shadcn/ui
+- Icons: Lucide React
+- Notifications: Sonner
+- Deployment Platform: Vercel
 
-## 💾 Persistence Layer Choice
+---
 
-**MongoDB Atlas** was chosen for persistence.
+## 🗄️ Database Design & Persistence
 
-- **Why:** The document-based model maps perfectly to JSON paste data.
-- **Robustness:** utilized MongoDB's atomic operators (`$inc`) to strictly enforce **Max View** limits. This ensures thread safety and prevents race conditions where concurrent requests could exceed the view limit.
+The application uses MongoDB as the persistence layer.
 
-## ✅ Functional Requirements
+### Why MongoDB?
 
-- [x] Create pastes with arbitrary text.
-- [x] **TTL Expiry:** Pastes automatically expire after a set duration.
-- [x] **View Limits:** Pastes delete themselves after a specific number of reads (Atomic decrement).
-- [x] **Test Mode:** Supports `x-test-now-ms` header for deterministic time travel testing.
-- [x] **Health Check:** `/api/healthz` endpoint verifying DB connectivity.
-- [x] **Responsive UI:** Full mobile support with Dark/Light mode.
+- Flexible schema for paste documents
+- Natural fit for JSON-based data
+- Supports atomic update operations
+
+### Reliability Measures
+
+- Atomic operators enforce maximum view limits
+- Prevents race conditions under concurrent access
+- Ensures consistency when decrementing view counts
+
+---
+
+## ✅ Functional Requirements Covered
+
+- Create a paste with arbitrary text content
+- Automatic expiration using TTL
+- View-based self-destruction of pastes
+- Thread-safe view count enforcement
+- Test-mode support using x-test-now-ms header
+- Health check endpoint at /api/healthz
+- Fully responsive UI across devices
+
+---
 
 ## 🚀 Getting Started
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/satyammjha/pastebin-assignment.git
-cd pastebin-assignment
-```
+git clone https://github.com/SaiSathwik012/paste-bin.git
+cd paste-bin
 
-### 2. Install dependencies
-
-```bash
+#2. Install dependencies
 npm install
 # or
 bun install
-```
 
-### 3. Environment Setup
+#3. Environment Configuration
 
-Create a `.env.local` file in the root directory. You can copy the example template:
+Create a .env.local file in the project root.
 
-```bash
 cp .env.example .env.local
-```
 
-Fill in your variables in `.env.local`:
+#Update .env.local with your configuration:
 
-```bash
-MONGODB_URI="your_mongodb_connection_string"
-# Set to 1 only if testing time-travel logic locally
+MONGODB_URI=your_mongodb_connection_string
 TEST_MODE=1
-```
 
-### 4. Run the development server
-
-```bash
+#4. Run the development server
 npm run dev
 # or
 bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+#Open the application at:
+
+http://localhost:3000
+
+🧪 API Endpoints
+
+/api/pastes — Create and retrieve pastes
+
+/api/healthz — Health check and database connectivity
+
+#👤 Author
+
+Sai Sathwik Samudram
+
+📄 License
+
+This project is intended for educational and assignment purposes.
+EOF
+
 
 ---
 
-## 👤 Author
+### ✅ After this, commit and push
 
-**Satyam Jha**
-
-- **LinkedIn:** [linkedin.com/in/satyammjha](https://www.linkedin.com/in/satyammjha)
-- **Website:** [satyamm.in](https://satyamm.in)
+```bash
+git add README.md
+git commit -m "Update README"
+git push
